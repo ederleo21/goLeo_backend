@@ -1,0 +1,13 @@
+TORNEO VALIDACIONES
+
+BACKEND
+- No se puede eliminar un club si se encuentra en una participacion
+- No se permite eliminar una participacion
+- No se permite editar una participacion
+- Solo las participaciones se eliminan si se elimina el torneo a las que se asocian.
+- Los campos points_system y league_format y tournament_id de LEAGUE no son modificables.
+- Los campos rounds y teams_count de LEAGUE se le asignan valores una vez de elegir los equipos y no saldrán en el admin para modificarlos
+
+CAMPOS ACTIVES
+El campo active no afectará los procesos que ya están en marcha, 
+sino que solo se utilizará como filtro para nuevas operaciones.
