@@ -33,6 +33,10 @@ DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = ["*"]
 
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
 REST_FRAMEWORK = {
     # API usará tokens JWT (JSON Web Tokens) para autenticar a los usuarios.
     "DEFAULT_AUTHENTICATION_CLASSES": (
