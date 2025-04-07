@@ -70,7 +70,7 @@ INSTALLED_APPS = [
     'performance.apps.PerformanceConfig',
     'tournaments.apps.TournamentsConfig',
     'cloudinary',
-    'cloudinary_storage'
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
