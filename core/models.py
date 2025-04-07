@@ -85,7 +85,7 @@ class Player(models.Model):
     phone = models.CharField(verbose_name='Telefono', max_length=10, validators=[phone_regex], blank=True, null=True)
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
-    active = models.BooleanField(verbose_name='Activo', default=True)
+    active = models.BooleanField(verbose_name='Activo', default=True)  
 
     class Meta:
         verbose_name = 'Jugador'
