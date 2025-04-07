@@ -79,7 +79,7 @@ class Player(models.Model):
     date_of_birth = models.DateField(verbose_name='Fecha de Nacimiento')
     nationality = models.ForeignKey(Country, on_delete=models.CASCADE, verbose_name='Nacionalidad', related_name='players')
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, verbose_name='Posición', related_name='players', null=True)
-    photo = models.ImageField(verbose_name='Foto del jugador', upload_to='players/', default='https://res.cloudinary.com/djretqgrx/image/upload/v1743987594/player_default_qmzlls.jpg', blank=True, null=True)
+    photo = models.ImageField(verbose_name='Foto del jugador', upload_to='players/', blank=True, null=True)
     dorsal = models.PositiveIntegerField(verbose_name='Dorsal', default=0)
     email = models.EmailField(verbose_name='Email', blank=True, null=True)
     phone = models.CharField(verbose_name='Telefono', max_length=10, validators=[phone_regex], blank=True, null=True)
@@ -98,6 +98,11 @@ class Player(models.Model):
         today = timezone.now().date()
         if self.date_of_birth >= today:
             raise ValidationError('La fecha de nacimiento no puede ser hoy ni una fecha futura.')
+
+    def save(self, *args, **kwargs):
+        if not self.photo:
+            self.photo = 'https://res.cloudinary.com/djretqgrx/image/upload/v1743987594/player_default_qmzlls.jpg'
+        super(Player, self).save(*args, **kwargs)
 
     def delete(self):
         self.active = False
