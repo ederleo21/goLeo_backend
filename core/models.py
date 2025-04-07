@@ -9,7 +9,7 @@ class User(AbstractUser):
     dni = models.CharField(max_length=10, blank=True, null=True, unique=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='users/', default='users/user-default.webp', blank=True, null=True)
+    image = models.ImageField(upload_to='users/', default='https://res.cloudinary.com/djretqgrx/image/upload/v1743987303/user-default_jqhgh3.webp', blank=True, null=True)
 
     def __str__(self):
         return self.username
@@ -17,7 +17,7 @@ class User(AbstractUser):
 class Country(models.Model):
     name = models.CharField(verbose_name='Nombre', max_length=30, unique=True)
     code = models.CharField(verbose_name='Código', max_length=3, unique=True)
-    flag = models.ImageField(verbose_name='Bandera', upload_to='country/', default='country/bandera.jpg')
+    flag = models.ImageField(verbose_name='Bandera', upload_to='country/', default='https://res.cloudinary.com/djretqgrx/image/upload/v1743987498/bandera_hasgfk.jpg', blank=True, null=True)
     created = models.DateField(auto_now_add=True)
     updated = models.DateField(auto_now=True)
 
@@ -36,7 +36,7 @@ class Club(models.Model):
     location = models.CharField(verbose_name='Locacion',max_length=100)
     country = models.ForeignKey(Country, on_delete=models.CASCADE, verbose_name='Pais', related_name='clubs')
     established = models.DateField(verbose_name='Fecha de establecimiento', default=timezone.now)
-    logo = models.ImageField(verbose_name='Escudo',upload_to='club/', blank=True, null=True)
+    logo = models.ImageField(verbose_name='Escudo', upload_to='club/', blank=True, null=True)
     description = models.TextField(verbose_name='Descripcion',blank=True, null=True)
     email = models.EmailField(verbose_name='Email', blank=True, null=True)
     phone = models.CharField(verbose_name='Telefono', max_length=10, validators=[phone_regex])
@@ -79,7 +79,7 @@ class Player(models.Model):
     date_of_birth = models.DateField(verbose_name='Fecha de Nacimiento')
     nationality = models.ForeignKey(Country, on_delete=models.CASCADE, verbose_name='Nacionalidad', related_name='players')
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, verbose_name='Posición', related_name='players', null=True)
-    photo = models.ImageField(verbose_name='Foto del jugador', upload_to='players/', default='players/player_default.jpg', blank=True, null=True)
+    photo = models.ImageField(verbose_name='Foto del jugador', upload_to='players/', default='https://res.cloudinary.com/djretqgrx/image/upload/v1743987594/player_default_qmzlls.jpg', blank=True, null=True)
     dorsal = models.PositiveIntegerField(verbose_name='Dorsal', default=0)
     email = models.EmailField(verbose_name='Email', blank=True, null=True)
     phone = models.CharField(verbose_name='Telefono', max_length=10, validators=[phone_regex], blank=True, null=True)

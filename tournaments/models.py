@@ -15,7 +15,7 @@ class Tournament(models.Model):
     type = models.CharField(verbose_name="Tipo", max_length=10, choices=TOURNAMENTS_TYPES, default='OTHER')
     start_date = models.DateField(verbose_name="Fecha de inicio", default=timezone.now)
     end_date = models.DateField(verbose_name="Fecha de fin")
-    photo = models.ImageField(verbose_name='Foto del torneo', upload_to='tournaments/', default='tournaments/tournament_default.jpg', blank=True, null=True)
+    photo = models.ImageField(verbose_name='Foto del torneo', upload_to='tournaments/', default='https://res.cloudinary.com/djretqgrx/image/upload/v1743987668/tournament_default_ramb9s.jpg', blank=True, null=True)
     active = models.BooleanField(verbose_name="Activo", default=True)
     description = models.TextField(verbose_name="Descripción", blank=True, null=True)
     created = models.DateField(auto_now_add=True)
