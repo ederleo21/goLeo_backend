@@ -117,16 +117,11 @@ class MatchesCompletedTournamentView(APIView):
 class PlayerTournamentStatsAPIView(APIView):
     permission_classes = [AllowAny]
 
-    def get(self, request, pk):
-        media_url = request.build_absolute_uri(settings.MEDIA_URL)  
+    def get(self, request, pk):  
 
         def process_players(players):
             for player in players:
-                photo_path = player.get('player_participation__player__photo')
-                if photo_path:
-                    player['player_photo_url'] = media_url + photo_path
-                else:
-                    player['player_photo_url'] = None
+                player['player_photo_url'] = player['player_participation__player__photo']
             return players
 
         max_player_goals = (
