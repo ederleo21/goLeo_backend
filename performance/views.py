@@ -114,7 +114,6 @@ class MatchesCompletedTournamentView(APIView):
 
 
 #Vista de tops de player a nivel de torneo
-
 class PlayerTournamentStatsAPIView(APIView):
     permission_classes = [AllowAny]
 
@@ -177,6 +176,7 @@ class PlayerTournamentStatsAPIView(APIView):
             "top_recoveries": process_players(max_player_recoveries),
             "top_saves": process_players(max_player_saves)
         })
+
 
 #Vista para tabla resumida de estadisticas de jugadores.
 class StatisticsPlayerByTournamentAPIView(APIView):
