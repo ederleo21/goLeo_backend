@@ -114,24 +114,35 @@ class MatchesCompletedTournamentView(APIView):
 
 
 #Vista de tops de player a nivel de torneo
+
 class PlayerTournamentStatsAPIView(APIView):
     permission_classes = [AllowAny]
 
-    def get(self, request, pk):  
+    CLOUDINARY_BASE_URL = "https://res.cloudinary.com/djretqgrx/image/upload/v1/"
+
+    def get(self, request, pk):
 
         def process_players(players):
             for player in players:
-                player['player_photo_url'] = player['player_participation__player__photo']
+                path = player.get('player_participation__player__photo')
+                if path:
+                    player['player_photo_url'] = f"{self.CLOUDINARY_BASE_URL}{path}"
+                else:
+                    player['player_photo_url'] = None
             return players
+
+        common_fields = [
+            "player_participation__player__first_name",
+            "player_participation__player__id",
+            "player_participation__player__club__name",
+            "player_participation__player__last_name",
+            "player_participation__player__photo"
+        ]
 
         max_player_goals = (
             PlayerStatistics.objects
             .filter(player_participation__match__tournament=pk)
-            .values("player_participation__player__first_name", 
-                    "player_participation__player__id",
-                    "player_participation__player__club__name",
-                    "player_participation__player__last_name", 
-                    "player_participation__player__photo")
+            .values(*common_fields)
             .annotate(total_goals=Sum("goals_scored"))
             .order_by('-total_goals')[:3]
         )
@@ -139,11 +150,7 @@ class PlayerTournamentStatsAPIView(APIView):
         max_player_assists = (
             PlayerStatistics.objects
             .filter(player_participation__match__tournament=pk)
-            .values("player_participation__player__first_name", 
-                    "player_participation__player__id",
-                    "player_participation__player__club__name",
-                    "player_participation__player__last_name", 
-                    "player_participation__player__photo")
+            .values(*common_fields)
             .annotate(total_assists=Sum("assists"))
             .order_by('-total_assists')[:3]
         )
@@ -151,11 +158,7 @@ class PlayerTournamentStatsAPIView(APIView):
         max_player_recoveries = (
             PlayerStatistics.objects
             .filter(player_participation__match__tournament=pk)
-            .values("player_participation__player__first_name", 
-                    "player_participation__player__id",
-                    "player_participation__player__club__name",
-                    "player_participation__player__last_name", 
-                    "player_participation__player__photo")
+            .values(*common_fields)
             .annotate(total_recoveries=Sum("ball_recoveries"))
             .order_by('-total_recoveries')[:3]
         )
@@ -163,11 +166,7 @@ class PlayerTournamentStatsAPIView(APIView):
         max_player_saves = (
             PlayerStatistics.objects
             .filter(player_participation__match__tournament=pk)
-            .values("player_participation__player__first_name", 
-                    "player_participation__player__id",
-                    "player_participation__player__club__name",
-                    "player_participation__player__last_name", 
-                    "player_participation__player__photo")
+            .values(*common_fields)
             .annotate(total_saves=Sum("saves"))
             .order_by('-total_saves')[:3]
         )
@@ -178,7 +177,6 @@ class PlayerTournamentStatsAPIView(APIView):
             "top_recoveries": process_players(max_player_recoveries),
             "top_saves": process_players(max_player_saves)
         })
-
 
 #Vista para tabla resumida de estadisticas de jugadores.
 class StatisticsPlayerByTournamentAPIView(APIView):
